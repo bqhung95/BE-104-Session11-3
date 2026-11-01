@@ -1,0 +1,12 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/bqhung95/BE-104-Session9-1.git # Thay thế bằng địa chỉ kho lưu trữ Git của bạn
+          default-label: main # Nếu là master thì đổi thành master
+          search-paths: /
