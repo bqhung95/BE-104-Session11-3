@@ -25,6 +25,7 @@ public class MedicineController {
 
     @PutMapping("/{id}")
     public MedicineDTO update(@PathVariable Long id, @RequestBody MedicineDTO dto) {
-        return medicineService.updateMedicine(id, dto);
+        dto.setId(id);
+        return medicineService.updateMedicine(dto);
     }
 }

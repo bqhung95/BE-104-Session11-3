@@ -16,4 +16,5 @@ public class MedicineDTO implements Serializable {
     private String activeIngredient;
     private BigDecimal price;
     private Integer stock;
+    private String unit;
 }

@@ -18,7 +18,7 @@ public class RedisCacheConfig {
     public RedisCacheManager cacheManager(RedisConnectionFactory factory) {
         RedisCacheConfiguration config = RedisCacheConfiguration
                 .defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(10))
+                .entryTtl(Duration.ofMinutes(60))               // ✅ TTL = 60 phút
                 .disableCachingNullValues()
                 .prefixCacheNameWith("pharmacy:")
                 .serializeKeysWith(

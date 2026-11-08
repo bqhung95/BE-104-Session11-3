@@ -16,11 +16,7 @@ public class MedicineService {
 
     private final MedicineRepository medicineRepository;
 
-    /**
-     * Cache-aside:
-     *  - Lần 1: chưa có trong Redis -> chạy method, query DB -> lưu kết quả vào Redis
-     *  - Lần 2: có trong Redis -> trả về luôn, KHÔNG chạy method, KHÔNG query DB
-     */
+    // ===== ĐỌC: Cache-aside =====
     @Cacheable(value = "medicines", key = "#id")
     public MedicineDTO getMedicineById(Long id) {
         log.info(">>> [DB HIT] Querying database for medicine id = {}", id);
@@ -29,24 +25,28 @@ public class MedicineService {
         return toDTO(m);
     }
 
-    /** Xoá cache khi cập nhật — tránh dữ liệu cũ */
-    @CacheEvict(value = "medicines", key = "#id")
-    public MedicineDTO updateMedicine(Long id, MedicineDTO dto) {
-        Medicine m = medicineRepository.findById(id).orElseThrow();
-        m.setName(dto.getName());
-        m.setPrice(dto.getPrice());
-        m.setStock(dto.getStock());
-        return toDTO(medicineRepository.save(m));
-    }
+    // ===== CẬP NHẬT: xóa cache ngay sau khi update =====
+    @CacheEvict(value = "medicines", key = "#medicine.id")
+    public MedicineDTO updateMedicine(MedicineDTO medicine) {
+        log.info(">>> [UPDATE] Medicine id = {} -> evict cache", medicine.getId());
+        Medicine entity = medicineRepository.findById(medicine.getId())
+                .orElseThrow(() -> new RuntimeException("Not found: " + medicine.getId()));
 
-    /** Xoá toàn bộ cache "medicines" */
-    @CacheEvict(value = "medicines", allEntries = true)
-    public void clearAllCache() { }
+        entity.setName(medicine.getName());
+        entity.setPrice(medicine.getPrice());
+        entity.setStock(medicine.getStock());
+        entity.setActiveIngredient(medicine.getActiveIngredient());
+        entity.setUnit(medicine.getUnit());
+
+        Medicine saved = medicineRepository.save(entity);
+        return toDTO(saved);
+    }
 
     private MedicineDTO toDTO(Medicine m) {
         return MedicineDTO.builder()
                 .id(m.getId()).name(m.getName())
                 .activeIngredient(m.getActiveIngredient())
+                .unit(m.getUnit())
                 .price(m.getPrice()).stock(m.getStock())
                 .build();
     }
