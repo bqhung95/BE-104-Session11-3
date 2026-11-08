@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel>
-      <module name="ConfigServer" target="21" />
-      <module name="ConfigServer.main" target="21" />
-      <module name="ConfigServer.test" target="21" />
-    </bytecodeTargetLevel>
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.48/6858f13541bab505384f07053c5a7b539bbfd3e3/lombok-1.18.48.jar" />
+        </processorPath>
+        <module name="Pharmacy.main" />
+        <module name="Pharmacy.test" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="21" />
   </component>
   <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="ConfigServer" options="-parameters" />
-      <module name="ConfigServer.main" options="-parameters" />
-      <module name="ConfigServer.test" options="-parameters" />
-      <module name="config-server" options="-parameters" />
-      <module name="config-server.main" options="-parameters" />
-      <module name="config-server.test" options="-parameters" />
-      <module name="pharmacy-service" options="-parameters" />
-      <module name="pharmacy-service.main" options="-parameters" />
-      <module name="pharmacy-service.test" options="-parameters" />
-    </option>
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-parameters" />
   </component>
 </project>
